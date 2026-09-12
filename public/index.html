@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang web có bộ đếm truy cập</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+            background-color: #f4f4f9;
+        }
+        .counter-box {
+            background: white;
+            padding: 20px 40px;
+            display: inline-block;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        #counter { color: #0070f3; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="counter-box">
+        <h1>Chào mừng bạn đến với trang web!</h1>
+        <p>Lượt truy cập: <span id="counter">Đang tải...</span></p>
+    </div>
+
+    <script>
+        // Gọi API với action=hit để vừa đếm vừa hiển thị
+        fetch('/api/counter?action=hit')
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('counter').innerText = data.count.toLocaleString();
+                } else {
+                    document.getElementById('counter').innerText = 'Lỗi tải số liệu';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('counter').innerText = 'Không thể kết nối';
+            });
+    </script>
+</body>
+</html>
